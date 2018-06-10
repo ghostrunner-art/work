@@ -9,5 +9,5 @@ def blog_list(request):
 def bolg_detail(request,blog_pk):
     context = dict()
     context['blog'] = get_object_or_404(Blog,id = blog_pk)
-    return
+    return render_to_response('blog_detail.html',context)
 

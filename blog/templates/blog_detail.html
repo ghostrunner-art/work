@@ -2,12 +2,10 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>我的网站</title>
+    <title>{{ blog.title }}</title>
 </head>
 <body>
-    {% for blog in blogs %}
-        <h3>{{ blog.title }}</h3>
-        <p>{{ blog.content }}</p>
-    {% endfor %}
+    <h3>{{ blog.title }}</h3>
+    <p>{{ blog.content }}</p>
 </body>
 </html>

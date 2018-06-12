@@ -7,7 +7,7 @@ class BlogType(models.Model):
 
     def __str__(self):
         return self.type_name
-#定义后台admin博客数据库项
+#定义后台admin单条博客数据库项
 class Blog(models.Model):
     title = models.CharField(max_length= 50)
     blog_type = models.ForeignKey(BlogType,on_delete=models.DO_NOTHING)

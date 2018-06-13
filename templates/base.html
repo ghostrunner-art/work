@@ -1,19 +1,31 @@
+{% load staticfiles %}
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="zh-CN">
 <head>
-    <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> {# 此条为 把最高版本的ie内核给我用 #}
+    <meta name="viewport" content="width=device-width, initial-scale=1"> {# 此条为根据不同尺寸的屏幕 自动适配文件 比较重要 #}
+
+    <title>{% block title %}{% endblock %}</title>{# 定义block 块 用以其他html引用 title是名称 #}
+    <link rel="stylesheet" href="{% static 'base.css' %}">{# 从根目录下找到base.css文件，并引用 #}
+    <link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}" >
+    <script type="" src = '{% static 'jquery-1.12.4.min.js' %}'></script>
+    <script type="" src = '{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}'></script>
+    {% block header_extendx %}{% endblock %}
 </head>
 <body>
-    <div>
-         <a href = '{% url 'home' %}'>
+    <div class="nav">
+         <a class="logo" href = '{% url 'home' %}'> {# url 后面跟的是链接路由里面name=的内容 #}
              <h3>个人博客网站</h3>
          </a>
         <a href="/">首页</a>
         <a href="{% url 'blog_list' %}">博客</a>
     </div>
-    <hr>
+
     {% block content %}
-    {% endblock %}
+    {% endblock %}{# 定义block 块 用以其他html引用 content是名称 #}
+
 </body>
 </html>

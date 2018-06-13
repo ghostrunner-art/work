@@ -6,7 +6,9 @@
 {% block title %}
     {{ blog_type.type_name }}
 {% endblock %}
-
+{% block nav_blog_active %}
+active
+{% endblock %}
 {# 引用模板base.html内的内容块 #}
 {% block content %}
     <h3>{{ blog_type.type_name }}</h3>

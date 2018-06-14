@@ -4,7 +4,8 @@ from .models import Blog,BlogType
 #blogs列表页面views
 def blog_list(request):
     context = dict()
-    context['blogs'] = Blog.objects.all()
+    #context['blogs'] = Blog.objects.all()  #获取全部文章列表
+    context['blogs'] = Blog.objects.order_by('-id').all()  #倒序排序获得全部文章列表
     context['blog_types'] = BlogType.objects.all()
     return render_to_response('blog/blog_list.html',context)
 #blog内容页views
@@ -17,8 +18,9 @@ def bolg_detail(request,blog_pk):
 def blogs_with_type(request,blog_type_pk):
     context = dict()
     blog_type = get_object_or_404(BlogType,pk=blog_type_pk)
-    context['blogs'] = Blog.objects.filter(blog_type=blog_type)
     context['blog_type'] = blog_type
+    context['blogs'] = Blog.objects.filter(blog_type=blog_type)
+    context['blog_types'] = BlogType.objects.all()
     return render_to_response('blog/blogs_with_type.html',context)
 
 

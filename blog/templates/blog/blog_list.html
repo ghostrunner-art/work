@@ -78,7 +78,7 @@
                   </ul>
                   <p> 有{{ page_of_blogs.paginator.count }}篇博客
                       当前第 {{ page_of_blogs.number }}   页
-                      共有{{ page_of_blogs.paginator.num_pages }}  页
+                      共有{{ page_of_blogs.paginator.num_pages }} 页
                   </p>
             </div>
             </div>
@@ -93,12 +93,24 @@
                             {% for blog_type in blog_types %}
                                  <li >
                                     <a href="{% url 'blogs_with_type' blog_type.pk %}">
-                                        {{ blog_type.type_name }}
+                                        {{ blog_type.type_name }}({{ blog_type.blog_count }})
                                     </a>
                                  </li>
                             {% empty %}
                                 <li>暂无分类</li>
                              {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">日期归档</div>
+                    <div class="panel-body">
+                        <ul>
+                           {% for blog_date,blog_count in blog_dates.items %}
+                               <a href="{% url 'blogs_with_date' blog_date.year blog_date.month %}">
+                               <li>{{ blog_date|date:'Y年m月' }}({{ blog_count }})</li>
+                               </a>
+                           {% endfor %}
                         </ul>
                     </div>
                 </div>

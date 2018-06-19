@@ -12,9 +12,6 @@ div.blog h3{
     margin-top:0.5em;
 
 }
-div.paginator{
-    text-align:center;
-}
 div.blog p.blog-info{
     margin-bottom: 0px;
 }
@@ -30,4 +27,3 @@ div.blog-content {
     margin-top: 1em;
     text-indent: 2em;
 }
-

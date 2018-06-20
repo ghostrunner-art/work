@@ -131,6 +131,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static'),
 ]
 
-# 自定义参数
+# 自定义参数 自定义参数约定大写
 
-EACH_PAGE_BLOGS_NUMBER = 7
+EACH_PAGE_BLOGS_NUMBER = 7  # 文章列表每页显示数量

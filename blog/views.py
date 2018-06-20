@@ -6,7 +6,7 @@ from django.conf import settings
 #blogs列表页面views
 def blog_list(request):
     blogs_all_list = Blog.objects.all()
-    paginator =Paginator(blogs_all_list,settings.EACH_PAGE_BLOGS_NUMBER) #利用分页器每10页进行分页
+    paginator =Paginator(blogs_all_list,settings.EACH_PAGE_BLOGS_NUMBER)
     page_num = request.GET.get('page', 1)  # 获取url的页码参数（GET请求）
     page_of_blogs = paginator.get_page(page_num)
     current_page_num = page_of_blogs.number
@@ -28,13 +28,16 @@ def blog_list(request):
     context['page_of_blogs'] = page_of_blogs
     context['page_range'] = page_range
     context['blog_types'] = BlogType.objects.all()
+    context['blog_dates'] = Blog.objects.dates('created_time','month',order='DESC')
     return render_to_response('blog/blog_list.html',context)
 #blog内容页views
 def bolg_detail(request,blog_pk):
     context = {}
-    context['blog'] = get_object_or_404(Blog,id = blog_pk)
+    blog = get_object_or_404(Blog,id = blog_pk)
+    context['previous_blog'] = Blog.objects.filter(created_time__gt = blog.created_time).last()
+    context['next_blog'] = Blog.objects.filter(created_time__lt = blog.created_time).first()
+    context['blog'] = blog
     return render_to_response('blog/blog_detail.html',context)
-
 #blogs分类views
 def blogs_with_type(request,blog_type_pk):
     context = {}
@@ -65,5 +68,8 @@ def blogs_with_type(request,blog_type_pk):
     context['page_range'] = page_range
     context['blog_types'] = BlogType.objects.all()
     return render_to_response('blog/blogs_with_type.html',context)
+
+def blogs_with_date(request,year,month):
+    pass
 
 

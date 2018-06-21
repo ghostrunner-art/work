@@ -20,21 +20,8 @@
                     <li>阅读({{ blog.readed_num }})</li>
                 <div class="blog-content">{{ blog.content|safe }}</div>
                 </ul>
-<<<<<<< HEAD
                 {# 翻页制作 #}
-                <div class="blog-more">
-                    <p>
-                        上一篇：
-                        {% if previous_blog %}
-                            <a href="{% url 'blog_detail' previous_blog.pk %}">{{ previous_blog.title }}</a>
-                        {% else %}没有了{% endif %}
-                    </p>
-                    <p>
-                        下一篇：
-                        {% if next_blog %}
-                            <a href="{% url 'blog_detail' next_blog.pk %}">{{ next_blog.title }}</a>
-                        {% else %}没有了 {% endif %}
-=======
+
                 <div class="blog-more">
                     <p>上一篇：
                         {% if previous_blog %}
@@ -49,7 +36,7 @@
                         {% else %}
                             没有了
                         {% endif %}
->>>>>>> cd57c9b30df5dbf4e04eb557a075b48d11795c88
+
                     </p>
                 </div>
             </div>

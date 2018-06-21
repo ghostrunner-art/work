@@ -4,10 +4,6 @@ from .models import Blog,BlogType
 from django.conf import settings
 from django.db.models import Count
 
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
 #blogs列表页面views
 def blog_list(request):
     blogs_all_list = Blog.objects.all()
@@ -48,11 +44,9 @@ def blogs_with_type(request,blog_type_pk):
     context = {}
     blog_type = get_object_or_404(BlogType,pk=blog_type_pk)
     blogs_all_list = Blog.objects.filter(blog_type=blog_type)
-=======
->>>>>>> ea19fb1bf36164168d3339f5fe4afd5a1781e764
+
 #views公共函数
 def get_blog_list_common_data(request,blogs_all_list):
->>>>>>> cd57c9b30df5dbf4e04eb557a075b48d11795c88
     paginator = Paginator(blogs_all_list, settings.EACH_PAGE_BLOGS_NUMBER)  # 利用分页器每10页进行分页
     page_num = request.GET.get('page', 1)  # 获取url的页码参数（GET请求）
     page_of_blogs = paginator.get_page(page_num)

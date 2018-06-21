@@ -104,6 +104,20 @@
                     </div>
                 </div>
                 <div class="panel panel-default">
+<<<<<<< HEAD
+                    <div class="panel-heading">
+                        日期分类：
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            {% for blog_date in blog_dates  %}
+                                <li>
+                                    <a href="{% url 'blogs_with_date' blog_date.year blog_date.month  %}">
+                                        {{ blog_date|date:'Y年m月' }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+=======
                     <div class="panel-heading">日期归档</div>
                     <div class="panel-body">
                         <ul>
@@ -112,6 +126,7 @@
                                <li>{{ blog_date|date:'Y年m月' }}({{ blog_count }})</li>
                                </a>
                            {% endfor %}
+>>>>>>> cd57c9b30df5dbf4e04eb557a075b48d11795c88
                         </ul>
                     </div>
                 </div>

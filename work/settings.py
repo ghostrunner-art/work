@@ -140,6 +140,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'madia')
 
 CKEDITOR_UPLOAD_PATH = 'upload/'
 
-# 自定义参数
+# 自定义参数 自定义参数约定大写
 
-EACH_PAGE_BLOGS_NUMBER = 7
+EACH_PAGE_BLOGS_NUMBER = 7  # 文章列表每页显示数量

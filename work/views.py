@@ -3,3 +3,5 @@ from django.shortcuts import render_to_response
 def home(request):
     context = dict()
     return render_to_response('home.html',context)
+
+# 全局视图

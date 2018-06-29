@@ -28,6 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor',include('ckeditor_uploader.urls')), # ckeditor图片上传配置
     path('blog/',include('blog.urls')),
+    path('login/',views.login,name='login'),
 
 
 ]

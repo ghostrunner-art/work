@@ -3,7 +3,9 @@ from django.core.paginator import Paginator #导入分页器
 from .models import Blog,BlogType
 from django.conf import settings
 from django.db.models import Count
+from django.contrib.contenttypes.models import ContentType
 from read_statistics.utils import read_statistics_once_read #调用应用封装方法
+from comment.models import Comment
 
 #blogs列表页面views
 def blog_list(request):
@@ -32,16 +34,6 @@ def blog_list(request):
     context['blog_types'] = BlogType.objects.all()
     context['blog_dates'] = Blog.objects.dates('created_time','month',order='DESC')
     return render(request,'blog/blog_list.html',context)
-#blog内容页views
-'''
-def bolg_detail(request,blog_pk):
-    context = {}
-    blog = get_object_or_404(Blog,id = blog_pk)
-    context['previous_blog'] = Blog.objects.filter(created_time__gt = blog.created_time).last()
-    context['next_blog'] = Blog.objects.filter(created_time__lt = blog.created_time).first()
-    context['blog'] = blog
-    return render_to_response('blog/blog_detail.html',context)
-'''
 #blogs分类views
 def blogs_with_type(request,blog_type_pk):
     context = {}
@@ -96,7 +88,6 @@ def blog_list(request):
     blogs_all_list = Blog.objects.all()
     context = get_blog_list_common_data(request,blogs_all_list)
     return render(request,'blog/blog_list.html',context)
-
 #blogs分类views
 def blogs_with_type(request,blog_type_pk):
     blog_type = get_object_or_404(BlogType,pk=blog_type_pk)
@@ -110,16 +101,18 @@ def blogs_with_date(request,year,month):
     context = get_blog_list_common_data(request,blogs_all_list)
     context['blogs_with_date'] = '%s年%s月'%(year,month)
     return render(request,'blog/blogs_with_date.html', context)
-
 #blog内容页views
 def bolg_detail(request,blog_pk):
     blog = get_object_or_404(Blog, id=blog_pk)
     read_cookie_key =  read_statistics_once_read(request,blog)
+    blog_content_type = ContentType.objects.get_for_model(blog)
+    comments = Comment.objects.filter(content_type=blog_content_type,object_id=blog.pk)
 
     context = {}
     context['previous_blog'] = Blog.objects.filter(created_time__gt=blog.created_time).last()
     context['next_blog'] = Blog.objects.filter(created_time__lt=blog.created_time).first()
     context['blog'] = blog
+    context['comments'] = comments
     response = render(request,'blog/blog_detail.html',context) # 响应
     response.set_cookie(read_cookie_key,'true') # 把数据存到用户端浏览器本地cookie,max_age为在多少秒后失效，如果不设置，则在浏览器关闭后失效
     return response

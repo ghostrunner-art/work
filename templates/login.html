@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    我的网站|登陆
+{% endblock %}
+
+{% block nav_home_active %}active{% endblock %}
+{% block content %}
+    <form action="#" method="POST">
+        {% csrf_token %}
+        {{ login_form }}
+        <input type="submit" value="登陆">
+    </form>
+{% endblock %}

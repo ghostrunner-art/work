@@ -5,8 +5,10 @@ from django.utils import timezone
 from django.db.models import Sum
 from django.core.cache import cache
 from django.contrib import auth
+from django.urls import reverse
 from read_statistics.utils import get_seven_days_read_date,get_today_hot_data,get_yesterday_hot_data
 from blog.models import Blog
+from .forms import LoginForm
 
 def get_7_days_hot_blogs():
     today = timezone.now().today()
@@ -37,12 +39,18 @@ def home(request):
     return render(request,'home.html',context)
 
 def login(request):
-    username = request.POST.get('username','')
-    password = request.POST.get('password','')
-    user = auth.authenticate(request,username=username,password = password) #authenticate的结果是布尔值
-    if user is not None:
-        auth.login(request,user)
-        return redirect('/')
+    if request.method == 'POST':
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+            user = login_form.cleaned_data['user']  #直接是实例化调用类函数的返回值，牛逼
+            auth.login(request,user)
+            return redirect(request.GET.get('from',reverse('home')))
     else:
-        return render(request,'error.html',{'message':'用户名密码不正确'})
+        login_form = LoginForm()
+
+    context={}
+    context['login_form'] = login_form
+    return render(request,'login.html',context)
+
+
 # 全局视图

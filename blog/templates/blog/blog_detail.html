@@ -27,7 +27,11 @@
                     <div class="blog-content">{{ blog.content|safe }}</div>
                 </ul>
                 {# 翻页制作 #}
-
+                <div class="like">
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    <span class="liked_num">0</span>
+                    <span class="liked_num">喜欢</span>
+                </div>
                 <div class="blog-more">
                     <p>上一篇：
                         {% if previous_blog %}

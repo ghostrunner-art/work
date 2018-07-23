@@ -1,3 +1,57 @@
 from django.shortcuts import render
+from django.contrib.contenttypes.models import ContentType
+from django.http import JsonResponse
+from django.db.models import ObjectDoesNotExist
+from .models import LikeCount,LikeRecord
 
-# Create your views here.
+def ErrorResponse(code,message):
+    data = {}
+    data['status'] = 'ERROR'
+    data['code'] = code
+    data['message'] = message
+    return JsonResponse(data)
+
+def SuccessResponse(liked_num):
+    data={}
+    data['status'] = 'SUCCESS'
+    data['liked_num'] = liked_num
+    return JsonResponse(data)
+def like_change(request):
+    # 获取数据
+    user = request.user
+    if not user.is_authenticated:
+        return ErrorResponse(400,'you are not login')
+    content_tpye =request.GET.get('content_type')
+    object_id = int(request.GET.get('object_id'))
+    try:
+        content_tpye = ContentType.objects.get(model=content_tpye)
+        model_class = content_tpye.model_class()
+        model_obj = model_class.objects.get(pk=object_id)
+    except ObjectDoesNotExist:
+        return ErrorResponse(401,'object not exist')
+    # 处理数据
+    if request.GET.get('is_like') == 'true':
+        like_record,created =  LikeRecord.objects.get_or_create(content_type=content_tpye,object_id=object_id,user=user)
+        if created:
+            like_count,created = LikeCount.objects.get_or_create(content_tpye=content_tpye,object_id=object_id)
+            like_count.liked_num +=1
+            like_count.save()
+            return SuccessResponse(like_count.liked_num)
+        else:
+            return ErrorResponse(402,'you were liked')
+    else:
+        if LikeRecord.objects.filter(content_type=content_tpye,object_id=object_id,user=user).exists():
+            like_record =  LikeRecord.objects.get(content_type=content_tpye, object_id=object_id, user=user)
+            like_record.delete()
+            like_count, created = LikeCount.objects.get_or_create(content_tpye=content_tpye, object_id=object_id)
+            if  not created:
+                like_count.liked_num -=1
+                like_count.save()
+                return SuccessResponse(like_count.liked_num)
+            else:
+                return ErrorResponse(402, 'data error')
+
+        else:
+            return ErrorResponse(402,'you were not liked')
+
+

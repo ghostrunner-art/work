@@ -29,7 +29,9 @@ urlpatterns = [
     path('ckeditor',include('ckeditor_uploader.urls')), # ckeditor图片上传配置
     path('blog/',include('blog.urls')),
     path('comment/',include('comment.urls')),#评论
+    path('likes/',include('likes.urls')),
     path('login/',views.login,name='login'),
     path('register/',views.register,name='register'),
+
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

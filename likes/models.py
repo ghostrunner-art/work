@@ -16,4 +16,4 @@ class LikeRecord(models.Model):
     content_object = GenericForeignKey('content_type','object_id')
 
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    liked_time = models.DateField(auto_created=True)
+    liked_time = models.DateTimeField(auto_now_add=True)

@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Daan,Wenti
 
-# Register your models here.
+@admin.register(Daan)
+class Daan(admin.ModelAdmin):
+    pass
